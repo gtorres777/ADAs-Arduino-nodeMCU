@@ -42,18 +42,48 @@ void loop() {
       // Parameters
       int pararse = root[0]["pararse"]; // 1
       int sentarse = root[0]["sentarse"]; // "Leanne Graham"
-      //const char* email = root["email"]; // "Sincere@april.biz"
+      int avanzar = root[0]["avanzar"];
+      int retroceder = root[0]["retroceder"];
+      int girarIzquierda = root[0]["girarIzquierda"];
+      int girarDerecha = root[0]["girarDerecha"];
+      int saludar = root[0]["saludar"];
+      int bailar = root[0]["bailar"];
   
       // Output to serial monitor
       Serial.print("Pararse:");
       Serial.println(pararse);
       Serial.print("Sentarse:");
       Serial.println(sentarse);
+      Serial.print("Avanzar:");
+      Serial.println(avanzar);
+      Serial.print("Retroceder:");
+      Serial.println(retroceder);
+      Serial.print("Girar Izquierda:");
+      Serial.println(girarIzquierda);
+      Serial.print("Girar Derecha:");
+      Serial.println(girarDerecha);
+      Serial.print("Saludar:");
+      Serial.println(saludar);
+      Serial.print("Bailar:");
+      Serial.println(bailar);
+      Serial.println("---------------");
       
       if(pararse == 1){
         envio('p');
       }else if(sentarse == 1){
         envio('s');
+      }else if(avanzar == 1){
+        envio('a');
+      }else if(retroceder == 1){
+        envio('r');
+      }else if(girarIzquierda == 1){
+        envio('i');
+      }else if(girarDerecha == 1){
+        envio('d');
+      }else if(saludar == 1){
+        envio('v');
+      }else if(bailar == 1){
+        envio('b');
       }
       
       http.end();   //Close connection11      
