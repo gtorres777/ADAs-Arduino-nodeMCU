@@ -95,15 +95,9 @@ void loop() {
       http.end();   //Close connection11      
   }
 
+  HTTPClient http3;  //Object of class HTTPClient
 
-   HTTPClient http2;  //Object of class HTTPClient
-    http2.begin("http://tux777.pythonanywhere.com/accion/?accion=reinicio");
-    int http2Code = http2.GET();
-
-  if (http2Code > 0) {
-      http2.end();   //Close connection1
-  }
-    // LEER LA HUMEDAD USANDO EL METRODO READHUMIDITY
+  // LEER LA HUMEDAD USANDO EL METRODO READHUMIDITY
   float h = dht.readHumidity();
   // LEER LA TEMPERATURA USANDO EL METRODO READTEMPERATURE
   float t = dht.readTemperature();
@@ -114,6 +108,24 @@ void loop() {
   Serial.print("Temperatura: ");
   Serial.print(t);
   Serial.println(" *C");
+
+  String urldatos = "http://tux777.pythonanywhere.com/dato/?temperatura=" + String(t) + "&humedad=" + String(h);
+  Serial.println(urldatos);
+  
+  http3.begin(urldatos);
+  int http3Code = http3.GET();
+
+  if (http3Code > 0) {
+      http3.end();   //Close connection1
+  }
+
+  HTTPClient http2;  //Object of class HTTPClient
+    http2.begin("http://tux777.pythonanywhere.com/accion/?accion=reinicio");
+    int http2Code = http2.GET();
+
+  if (http2Code > 0) {
+      http2.end();   //Close connection1
+  }
   // Delay
   delay(1000);
 }
