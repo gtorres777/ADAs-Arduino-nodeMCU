@@ -2,9 +2,14 @@
 #include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Wire.h>
+#include "DHT.h"
+ 
+// CONSTRUCTOR DEL OBJETO DHT RECIBE EL PIN EN EL QUE SE CONECTA EL SENSOR
+// Y TAMBIEN RECIBE EL TIPO DE SENSOR QUE VAMOS A CONECTAR
+DHT dht(2, DHT11);
 // WiFi Parameters
-const char* ssid = "TD";
-const char* password = "TESTING7779";
+const char* ssid = "Kozak";
+const char* password = "pzsh5324";
 boolean estaParado = false;
 boolean estaSentado = false;
 
@@ -20,13 +25,14 @@ void setup() {
     delay(1000);
     Serial.println("Connecting...");
   }
+  dht.begin();
 }
 
 void loop() {
   // Check WiFi Status
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;  //Object of class HTTPClient
-    http.begin("http://192.168.1.131:8000/acciones/");
+    http.begin("http://tux777.pythonanywhere.com/acciones/");
     int httpCode = http.GET();
     //Check the returning code                                                                  
     if (httpCode > 0) {
@@ -91,13 +97,23 @@ void loop() {
 
 
    HTTPClient http2;  //Object of class HTTPClient
-    http2.begin("http://192.168.1.131:8000/accion/?accion=reinicio");
+    http2.begin("http://tux777.pythonanywhere.com/accion/?accion=reinicio");
     int http2Code = http2.GET();
 
   if (http2Code > 0) {
       http2.end();   //Close connection1
   }
-  
+    // LEER LA HUMEDAD USANDO EL METRODO READHUMIDITY
+  float h = dht.readHumidity();
+  // LEER LA TEMPERATURA USANDO EL METRODO READTEMPERATURE
+  float t = dht.readTemperature();
+
+  Serial.print("Humedad: ");
+  Serial.print(h);
+  Serial.print(" % ");
+  Serial.print("Temperatura: ");
+  Serial.print(t);
+  Serial.println(" *C");
   // Delay
   delay(1000);
 }
