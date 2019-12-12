@@ -95,7 +95,7 @@ void loop() {
       http.end();   //Close connection11      
   }
 
-  HTTPClient http3;  //Object of class HTTPClient
+ HTTPClient http3;  //Object of class HTTPClient
 
   // LEER LA HUMEDAD USANDO EL METRODO READHUMIDITY
   float h = dht.readHumidity();
@@ -109,12 +109,21 @@ void loop() {
   Serial.print(t);
   Serial.println(" *C");
 
-  String urldatos = "http://tux777.pythonanywhere.com/dato/?temperatura=" + String(t) + "&humedad=" + String(h);
+  String urldatos = "http://tux777.pythonanywhere.com/datos/";
   Serial.println(urldatos);
-  
-  http3.begin(urldatos);
-  int http3Code = http3.GET();
 
+  http3.begin(urldatos);
+  http3.addHeader("Content-Type","application/json");
+
+  StaticJsonDocument<256> root;
+  root["temperatura"] = t;
+  root["humedad"] = h;
+
+  String jsonString;
+  serializeJson(root, jsonString);
+
+  int http3Code = http3.POST(jsonString);
+  Serial.println(jsonString);
   if (http3Code > 0) {
       http3.end();   //Close connection1
   }
