@@ -129,7 +129,7 @@ void loop() {
   }
 
   HTTPClient http2;  //Object of class HTTPClient
-    http2.begin("http://tux777.pythonanywhere.com/accion/?accion=reinicio");
+    http2.begin("http://tux777.pythonanywhere.com/accion_reinicio/");
     int http2Code = http2.GET();
 
   if (http2Code > 0) {
